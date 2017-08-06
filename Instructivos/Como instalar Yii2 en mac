@@ -1,0 +1,24 @@
+Como instalar Yii2 en mac
+
+1) se debe descargar el archivo composer-setup.php y pegarlo en la carpeta htdocs (o donde se publiquen las páginas webs en el servidor local).
+
+2) Se debe abrir la aplicación terminal y ubicarnos en la carpeta htdocs
+
+3) Se debe ejecutar la siguiete instrucción para descargar el plugin que instala los proyectos (validar si es la última versión).
+	composer global require "fxp/composer-asset-plugin:^1.3.1"
+
+4) Ejecutar alguno de los dos comandos para crear el proyecto (depende si se quiere plantilla avanzada o básica):
+	composer.phar create-project --prefer-dist yiisoft/yii2-app-advanced advancedTemplate
+	composer.phar create-project --prefer-dist yiisoft/yii2-app-basic basicTemplate
+
+	4.1) En caso de que se haya instalado el template avanzado se debe inicializar el ambiente de desarrollo con php, para ello hacemos lo siguiente:
+	- Ingresamos a la carpeta con el proyecto recien creado desde el terminal
+	- Ejecutamos el comando php init
+	- Selecionamos la opción 0 - Developer
+	- Ecribimos Y cuando se pregunte si queremos iniciar en Development environment
+
+5) Iniciamos el aplicativo con el enlace
+	http://localhost:8888/basicTemplate/web/ para básico
+	http://localhost:8888/advancedTemplate/frontend/web/ para avanzado
+
+	Nota: yii está generando un problema porque no encuentra la carpeta /Applications/MAMP/htdocs/advancedTemplate/vendor/bower/jquery/dist, lo que se debe hacer es entrar a la ruta /Applications/MAMP/htdocs/advancedTemplate/vendor/ y renombrar la carpeta bower-asset por bower

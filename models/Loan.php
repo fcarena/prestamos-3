@@ -10,11 +10,14 @@ use Yii;
  * @property integer $idLoan
  * @property integer $custId
  * @property string $value
- * @property integer $LoanType_idLoanType
+ * @property integer $idLoanType
  * @property string $prePayment
+ * @property string $date
+ * @property string $percentage
  *
  * @property Customer $cust
- * @property LoanType $loanTypeIdLoanType
+ * @property LoanType $idLoanType0
+ * @property Payment[] $payments
  */
 class Loan extends \yii\db\ActiveRecord
 {
@@ -32,12 +35,13 @@ class Loan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['custId', 'value', 'LoanType_idLoanType', 'prePayment'], 'required'],
-            [['custId', 'LoanType_idLoanType'], 'integer'],
-            [['value'], 'number'],
+            [['custId', 'value', 'idLoanType', 'prePayment', 'date', 'percentage'], 'required'],
+            [['custId', 'idLoanType'], 'integer'],
+            [['value', 'percentage'], 'number'],
+            [['date'], 'safe'],
             [['prePayment'], 'string', 'max' => 1],
             [['custId'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['custId' => 'idCustomer']],
-            [['LoanType_idLoanType'], 'exist', 'skipOnError' => true, 'targetClass' => LoanType::className(), 'targetAttribute' => ['LoanType_idLoanType' => 'idLoanType']],
+            [['idLoanType'], 'exist', 'skipOnError' => true, 'targetClass' => LoanType::className(), 'targetAttribute' => ['idLoanType' => 'idLoanType']],
         ];
     }
 
@@ -50,8 +54,10 @@ class Loan extends \yii\db\ActiveRecord
             'idLoan' => 'Id Loan',
             'custId' => 'Cust ID',
             'value' => 'Value',
-            'LoanType_idLoanType' => 'Loan Type Id Loan Type',
+            'idLoanType' => 'Id Loan Type',
             'prePayment' => 'Pre Payment',
+            'date' => 'Date',
+            'percentage' => 'Percentage',
         ];
     }
 
@@ -66,8 +72,16 @@ class Loan extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLoanTypeIdLoanType()
+    public function getIdLoanType0()
     {
-        return $this->hasOne(LoanType::className(), ['idLoanType' => 'LoanType_idLoanType']);
+        return $this->hasOne(LoanType::className(), ['idLoanType' => 'idLoanType']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPayments()
+    {
+        return $this->hasMany(Payment::className(), ['loanId' => 'idLoan']);
     }
 }

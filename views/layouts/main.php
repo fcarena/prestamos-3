@@ -60,6 +60,10 @@ AppAsset::register($this);
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'homeLink' => [ 
+                            'label' => Yii::t('yii', 'Inicio'),
+                            'url' => Yii::$app->homeUrl,
+                          ],
         ]) ?>
         <?= $content ?>
     </div>
@@ -67,7 +71,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; El Triunfo  <?= date('Y') ?></p>
+        <p class="pull-left">&copy; El Triunfo <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

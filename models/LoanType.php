@@ -49,6 +49,6 @@ class LoanType extends \yii\db\ActiveRecord
      */
     public function getLoans()
     {
-        return $this->hasMany(Loan::className(), ['LoanType_idLoanType' => 'idLoanType']);
+        return $this->hasMany(Loan::className(), ['idLoanType' => 'idLoanType']);
     }
 }

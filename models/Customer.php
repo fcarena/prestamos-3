@@ -15,8 +15,11 @@ use Yii;
  * @property string $cellPhone
  * @property string $phone
  * @property string $direction
+ * @property string $registerDate
+ * @property string $email
  *
  * @property IdentificaType $identType0
+ * @property Debt[] $debts
  * @property Loan[] $loans
  */
 class Customer extends \yii\db\ActiveRecord
@@ -35,11 +38,12 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['identType', 'numIdent', 'custName', 'custLastNam'], 'required'],
+            [['identType', 'numIdent', 'custName', 'custLastNam', 'registerDate'], 'required'],
             [['identType'], 'integer'],
+            [['registerDate'], 'safe'],
             [['numIdent', 'cellPhone'], 'string', 'max' => 20],
             [['custName', 'custLastNam', 'phone'], 'string', 'max' => 45],
-            [['direction'], 'string', 'max' => 100],
+            [['direction', 'email'], 'string', 'max' => 100],
             [['identType'], 'exist', 'skipOnError' => true, 'targetClass' => IdentificaType::className(), 'targetAttribute' => ['identType' => 'idIdentificaType']],
         ];
     }
@@ -50,14 +54,16 @@ class Customer extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idCustomer' => 'Id Customer',
-            'identType' => 'Ident Type',
-            'numIdent' => 'Num Ident',
-            'custName' => 'Cust Name',
-            'custLastNam' => 'Cust Last Nam',
-            'cellPhone' => 'Cell Phone',
-            'phone' => 'Phone',
-            'direction' => 'Direction',
+            'idCustomer' => 'Código',
+            'identType' => 'Tipo de identificación',
+            'numIdent' => 'Número de identificación',
+            'custName' => 'Nombre',
+            'custLastNam' => 'Apellido',
+            'cellPhone' => 'Celular',
+            'phone' => 'Teléfono',
+            'direction' => 'Dirección',
+            'registerDate' => 'Fecha de registro',
+            'email' => 'Correo electrónico',
         ];
     }
 
@@ -67,6 +73,14 @@ class Customer extends \yii\db\ActiveRecord
     public function getIdentType0()
     {
         return $this->hasOne(IdentificaType::className(), ['idIdentificaType' => 'identType']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDebts()
+    {
+        return $this->hasMany(Debt::className(), ['Customer_idCustomer' => 'idCustomer']);
     }
 
     /**
