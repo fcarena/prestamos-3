@@ -107,6 +107,22 @@ class CustomerController extends Controller
     }
 
     /**
+     * Función personalizada para desplegar lista de clientes 
+     * @Author jdavila
+     */
+    public function actionShowcusts()
+    {
+        $table = new Customer;
+        $model = $table::find()->all();
+        $nombre = "Juan David Dávila"; 
+        return $this->render('showcusts', [
+                'nomb'=>$nombre,
+                'model'=>$model
+            ]);
+    }
+
+
+    /**
      * Finds the Customer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -120,5 +136,13 @@ class CustomerController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionViewJD()
+    {
+        
+        return $this->render("showcusts", [
+                
+            ]);
     }
 }
